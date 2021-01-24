@@ -1,10 +1,9 @@
 #include <iostream>
+#include <cmath>
 #include <cstdlib>
 #include <ctime>
 #include "screen.h"
 #include "vec2.h"
-
-#define M_PI 3.14159265358979323846
 
 constexpr float G=3.0f;
 
@@ -34,8 +33,7 @@ struct Body
 		acc=0;
 	}
 	
-	Body(float m,float r)
-	:m(m),r(r)
+	Body(float m,float r) : r(r), m(m)
 	{
 		pos=0;
 		vel=0;
@@ -66,9 +64,6 @@ struct Body
 
 void Plot(const Body& body, Screen& scr)	//render the body
 {
-	vec2 O=body.pos;
-	vec2 X=body.pos + 0.5f*body.vel;
-	
 	scr.PlotCircle(body.pos.x,body.pos.y,body.r);
 }
 
@@ -81,12 +76,10 @@ int main()
 {
 	srand (static_cast <unsigned> (time(0)));
 	
-	setup();
 	Screen scr(0,0,5);
 	
 	const int n=20000;
 	constexpr float dt=1.0/40.0f;
-	constexpr float r=3.5f,R=30.0f;
 	
 	/* Initializing first galaxy */
 	Body Centre1(2000.0f,2.5f);

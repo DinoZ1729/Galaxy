@@ -27,8 +27,7 @@ struct Body
 		acc=0;
 	}
 	
-	Body(float m,float r)
-	:m(m),r(r)
+	Body(float m,float r) : r(r), m(m)
 	{
 		pos=0;
 		vel=0;
@@ -60,15 +59,11 @@ struct Body
 
 void Plot(const Body& body, Screen& scr)
 {
-	vec2 O=body.pos;
-	vec2 X=body.pos + 0.5f*body.vel;
-	
 	scr.PlotCircle(body.pos.x,body.pos.y,body.r);
 }
 
 int main()
 {
-	setup();
 	Screen scr(0,0,10);
 	
 	constexpr float dt=1.0/100.0f;

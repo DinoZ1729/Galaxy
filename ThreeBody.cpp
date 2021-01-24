@@ -27,8 +27,7 @@ struct Body
 		acc=0;
 	}
 	
-	Body(float m,float r)
-	:m(m),r(r)
+	Body(float m,float r) : r(r), m(m)
 	{
 		pos=0;
 		vel=0;
@@ -94,7 +93,6 @@ void Plot(const Body& body, Screen& scr)
 
 int main()
 {
-	setup();
 	Screen scr(0,0,200);
 	
 	constexpr float dt=1.0/100.0f;
