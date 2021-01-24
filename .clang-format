@@ -1,0 +1,7 @@
+BasedOnStyle: LLVM
+Standard: Cpp11
+IndentWidth: 4   
+UseTab: Never 
+AccessModifierOffset: -4
+AllowShortBlocksOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: None
