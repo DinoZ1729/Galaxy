@@ -51,7 +51,7 @@ struct Body
 	void PulledBy(const Body& other)
 	{
 		float dist = sqrt( (pos-other.pos)*(pos-other.pos) );
-		acc += G*other.m*(other.pos-pos)/dist/dist/dist;
+		acc += G*other.m*(other.pos-pos)/dist/dist/dist;	//vector form of the formula for gravity
 	}
 	
 	void Update(float dt)
@@ -64,7 +64,7 @@ struct Body
 	
 };
 
-void Plot(const Body& body, Screen& scr)
+void Plot(const Body& body, Screen& scr)	//render the body
 {
 	vec2 O=body.pos;
 	vec2 X=body.pos + 0.5f*body.vel;
@@ -88,32 +88,33 @@ int main()
 	constexpr float dt=1.0/40.0f;
 	constexpr float r=3.5f,R=30.0f;
 	
-	/* 1 */
+	/* Initializing first galaxy */
 	Body Centre1(2000.0f,2.5f);
 	Centre1.pos={150.0f,20.0f};
 	Centre1.vel={-5.0f,0.0f};
 	Body Bodies1[n];
 	for(int i=0;i<n;i++)
 	{
-		float maxRadius=30.0f;
+		float maxRadius=30.0f;	//max radius of the galaxy
 		
-		float theta=random(0.0f,2*M_PI);
+		float theta=random(0.0f,2*M_PI);	//angle the particle makes with the centre
 		
 		float r=random(1.0f,maxRadius);
-		r=r*r/maxRadius;
+		r=r*r/maxRadius;	//change distribution of particles (optional)
 		r+=0.2f*Centre1.r;
-		Bodies1[i].pos={r*cos(theta),r*sin(theta)};
-		Bodies1[i].pos+=Centre1.pos;
+		Bodies1[i].pos={r*cos(theta),r*sin(theta)};	//polar to cartezian coordinates
+		Bodies1[i].pos+=Centre1.pos;			//move the particle relative to the centre
 		
-		float v =sqrt(G*Centre1.m/r);
-		Bodies1[i].vel={v*sin(theta),-v*cos(theta)};
+		float v =sqrt(G*Centre1.m/r);			//calculate velocity based on radius
+		Bodies1[i].vel={v*sin(theta),-v*cos(theta)};	//polar to cartezian coordinates, rotated by 90 degrees
 		float offset=0.6f;
-		Bodies1[i].vel+={random(-offset,offset),random(-offset,offset)};
+		Bodies1[i].vel+={random(-offset,offset),random(-offset,offset)};	//random offset to velocity
 		Bodies1[i].vel+=Centre1.vel;
 		
 		Bodies1[i].r=0.2f;
 	}
-	/* 2 */
+	/* Initializing second galaxy */
+	/* Similar to first */
 	Body Centre2(2000.0f,2.5f);
 	Centre2.pos=-Centre1.pos;
 	Centre2.vel=-Centre1.vel;
@@ -131,8 +132,9 @@ int main()
 		Bodies2[i].pos+=Centre2.pos;
 		
 		float v =sqrt(G*Centre2.m/r);
-		//Bodies2[i].vel={v*sin(theta),-v*cos(theta)};
-		Bodies2[i].vel={-v*sin(theta),v*cos(theta)};
+		Bodies2[i].vel={v*sin(theta),-v*cos(theta)};
+		//uncomment for opposite direction of rotation
+		//Bodies2[i].vel=-Bodies2[i].vel;
 		float offset=0.6f;
 		Bodies2[i].vel+={random(-offset,offset),random(-offset,offset)};
 		Bodies2[i].vel+=Centre2.vel;
@@ -144,8 +146,11 @@ int main()
 	{
 		scr.Clear();
 		
+		//centres attract each other
 		Centre1.PulledBy(Centre2);
 		Centre2.PulledBy(Centre1);
+		
+		//particles are attracted to centres
 		for(int i=0;i<n;i++)
 		{
 			Bodies1[i].PulledBy(Centre1);
@@ -154,7 +159,7 @@ int main()
 			Bodies2[i].PulledBy(Centre2);
 		}
 		
-		
+		//update bodies
 		Centre1.Update(dt);
 		Centre2.Update(dt);
 		for(int i=0;i<n;i++)
@@ -162,11 +167,14 @@ int main()
 		for(int i=0;i<n;i++)
 			Bodies2[i].Update(dt);
 		
+		//rendering
 		Plot(Centre1,scr);
 		Plot(Centre2,scr);
 		
 		for(int i=0;i<n;i++)	Plot(Bodies1[i],scr);
 		for(int i=0;i<n;i++)	Plot(Bodies2[i],scr);
+		
+		//drawing
 		if((Centre1.pos-Centre2.pos)*(Centre1.pos-Centre2.pos)<90.0f*90.0f)
 			scr.Zoom(9);
 		if((Centre1.pos-Centre2.pos)*(Centre1.pos-Centre2.pos)>110.0f*110.0f)
