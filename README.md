@@ -7,7 +7,7 @@ __This project allows you to run a simulation of the collision of two galaxies. 
 **Project use C++ standard 17**
 
 ## Demonstration
-![Demo animation](https://www.youtube.com/watch?v=x62gOfZ9hCw&feature=emb_logo)
+[Demo animation](https://www.youtube.com/watch?v=x62gOfZ9hCw&feature=emb_logo)
 
 ## How use
 Start with all parameter's
