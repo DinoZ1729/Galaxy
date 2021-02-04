@@ -1,5 +1,4 @@
 #pragma once
-#include <curses.h>
 #include <iostream>
 #include <string>
 
@@ -271,6 +270,7 @@ inline void Screen::Setup() {
 }
 
 #else
+#include <curses.h>
 #include <stdio.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
