@@ -5,8 +5,11 @@ project (Galaxy)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+if (WIN32)
+  include_directories(win)  
+endif()
+
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-  include_directories(win)
   add_compile_definitions(_USE_MATH_DEFINES)
 endif()
 
