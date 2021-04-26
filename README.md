@@ -13,7 +13,7 @@ __This project allows you to run a simulation of the collision of two galaxies. 
 Start with all parameter's
 ```bash
 cd Galaxy
-make ThreeBody
+make all
 ```
 
 Start with 3 Body
